@@ -43,7 +43,7 @@ while True:
             match = [s.strip() for s in matches[0]]
                
             id, phone, date, info = match[0], int(match[1]), match[4], match[5]
-            date = datetime.datetime.strptime('28/04/21 17:02', '%d/%m/%y %H:%M').strftime('%Y-%m-%d %H:%M')
+            date = datetime.datetime.strptime(date, '%d/%m/%y %H:%M').strftime('%Y-%m-%d %H:%M')
             co = match[2] or '000'
             co = int(co)
             duration = get_sec(match[3])
