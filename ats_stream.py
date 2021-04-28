@@ -24,7 +24,7 @@ try:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 except socket.error:
     print('Failed to create socket')
-    sys.exit()
+    sys.exit(1)
 
 s.connect((HOST, PORT))
 
@@ -32,7 +32,7 @@ regex = r"^(\d+)\s+(\d{3})\s+(\d{3}\s+?)?([\d\:]+)\s+([\d\/]+ [\d:]+)\s+([A-Za-z
 
 while True:
     try:
-        line = s.recv(4096).decode()
+        line = s.recv(1024).decode()
         matches = re.findall(regex, line, re.MULTILINE | re.DOTALL)
         
         if ( (len(matches) > 0) and (len(matches[0]) >= 5) ):
