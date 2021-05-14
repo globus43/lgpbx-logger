@@ -7,6 +7,7 @@ import re
 import json
 import datetime
 import mysql.connector
+import time
 
 
 HOST = sys.argv[1]
@@ -44,13 +45,20 @@ def do_work():
 
     if sql:
         print('SQL connect')
-        sql = mysql.connector.connect(
-            host = MYSQL_HOST,
-            user = MYSQL_USER,
-            passwd = MYSQL_PASSWORD,
-            database = MYSQL_DATABASE,
-            charset = "utf8"
-        )
+        while True:
+            try:
+                sql = mysql.connector.connect(
+                    host = MYSQL_HOST,
+                    user = MYSQL_USER,
+                    passwd = MYSQL_PASSWORD,
+                    database = MYSQL_DATABASE,
+                    charset = "utf8"
+                )
+                break
+            except ConnectionRefusedError:
+                print('Connection refused. Reconnecting...')
+                time.sleep(10)
+                continue
         mycursor = None
 
     regex = r"^(\d+)\s+(\d{3})\s+(\d{3}\s+?)?([\d\:]+)\s+([\d\/]+ [\d:]+)\s+([A-Za-z0-9 :]+)\s+"
