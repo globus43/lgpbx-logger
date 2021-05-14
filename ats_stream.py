@@ -46,19 +46,24 @@ def do_work():
     if sql:
         print('SQL connect')
         while True:
-            try:
-                sql = mysql.connector.connect(
-                    host = MYSQL_HOST,
-                    user = MYSQL_USER,
-                    passwd = MYSQL_PASSWORD,
-                    database = MYSQL_DATABASE,
-                    charset = "utf8"
-                )
+            for attempt in range(5):
+                try:
+                    sql = mysql.connector.connect(
+                        host = MYSQL_HOST,
+                        user = MYSQL_USER,
+                        passwd = MYSQL_PASSWORD,
+                        database = MYSQL_DATABASE,
+                        charset = "utf8"
+                    )
+                except ConnectionRefusedError:
+                    if attempt <= 5:
+                        print('Connection refused. Reconnecting (' + attempt + ')...')
+                        time.sleep(10)
+                    else:
+                        print('No connection to DB after ' + attempt + 'attempts!')
+                        sys.exit(1)
+            else:
                 break
-            except ConnectionRefusedError:
-                print('Connection refused. Reconnecting...')
-                time.sleep(10)
-                continue
         mycursor = None
 
     regex = r"^(\d+)\s+(\d{3})\s+(\d{3}\s+?)?([\d\:]+)\s+([\d\/]+ [\d:]+)\s+([A-Za-z0-9 :]+)\s+"
