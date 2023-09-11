@@ -16,8 +16,8 @@ format = 'json'
 sql = True
 
 MYSQL_HOST = 'localhost'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = 'pass4sql'
+MYSQL_USER = 'cdr'
+MYSQL_PASSWORD = 'cdr'
 MYSQL_DATABASE = 'pbx_logs'
 
 # -------------------------------------------------------------------------
